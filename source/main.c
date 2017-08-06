@@ -239,12 +239,12 @@ int main(int argc, char **argv)
 			print_field("Encryption type", 0, ENC_TYPE);
 			print_field("NZone Beacon ApNum", 0, APNUM);
 			print_field("IsVendorIE", 0, BOOL);
-			print_field("IsBackground", 0, BOOL);
+			print_field("Automatically connect", 0, BOOL);
 			print_field("IsBrowser", 0, BOOL);
 			print_field("IsShop", 0, BOOL);
 			print_field("IsGame", 0, BOOL);
 			print_field("IsSetToFW", 0, BOOL);
-			print_field("IsZone", 0, BOOL);
+			print_field("Nintendo Zone", 0, BOOL);
 			printf("\n");
 			hotspot_index++;
 		}
