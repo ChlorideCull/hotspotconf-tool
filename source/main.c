@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "b64/cdecode.h"
 
@@ -33,9 +34,9 @@ int readline()
 	return 0;
 }
 
-int readfield(char *field, int maxlen, int decode)
+int readfield(char *field, unsigned int maxlen, int decode)
 {
-	int fieldpos=0;
+	unsigned int fieldpos=0;
 	base64_decodestate state;
 	char tmpfield[0xac];
 
@@ -47,7 +48,7 @@ int readfield(char *field, int maxlen, int decode)
 		if(fieldpos>=maxlen)
 		{
 			printf("Field is too long, aborting...\n");
-			return 2;
+			exit(1);
 		}
 
 		tmpfield[fieldpos] = line[field_linepos];
@@ -77,13 +78,17 @@ int readfield(char *field, int maxlen, int decode)
 	return 0;
 }
 
+void print_field(char* title, int decode)
+{
+	char field[0xac];
+	readfield(field, 0xac, decode);
+	printf("    %s : '%s'\n", title, field);
+}
+
 int main(int argc, char **argv)
 {
 	int linenum = 0;
-	int retval;
-	int fieldindex;
 	int hotspot_index=0;
-	char field[0xac];
 
 	if(argc<2)
 	{
@@ -123,35 +128,24 @@ int main(int argc, char **argv)
 				fclose(fconf);
 				return 1;
 			}
-			printf("%s\n", line);
 		}
 
 		if(linenum>2)
 		{
-			fieldindex = 0;
-			printf("Hotspot%d: ", hotspot_index);
-			while(fieldindex<12)
-			{
-				if(fieldindex>=0 && fieldindex<4)
-				{
-					retval = readfield(field, 0xac, 1);
-				}
-				else
-				{
-					retval = readfield(field, 0xac, 0);
-				}
-				if(retval==2)
-				{
-					fclose(fconf);
-					return 1;
-				}
-				if(retval==1)break;
-
-				if(fieldindex<11)printf("%s, ", field);
-				if(fieldindex==11)printf("%s ", field);
-				fieldindex++;
-			}
-
+			printf("Hotspot %d\n", hotspot_index);
+			print_field("Service Name", 1);
+			print_field("URL", 1);
+			print_field("SSID", 1);
+			print_field("Key", 1);
+			print_field("Encryption type", 0);
+			print_field("NZone Beacon ApNum", 0);
+			print_field("IsVendorIE", 0);
+			print_field("IsBackground", 0);
+			print_field("IsBrowser", 0);
+			print_field("IsShop", 0);
+			print_field("IsGame", 0);
+			print_field("IsSetToFW", 0);
+			print_field("IsZone", 0);
 			printf("\n");
 			hotspot_index++;
 		}
