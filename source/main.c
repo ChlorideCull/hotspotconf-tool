@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 
 		if(linenum==2)
 		{
-			if(strcmp(line, "ServiceName,Url,Ssid,SecurityKey,SecurityMode,ApNum,IsBackground,IsBrowser,IsShop,IsGame,IsSetToFW,IsVendorIE"))
+			if(strcmp(line, "ServiceName,Url,Ssid,SecurityKey,SecurityMode,ApNum,IsBackground,IsBrowser,IsShop,IsGame,IsSetToFW,IsVendorIE,IsZone"))
 			{
 				printf("Invalid records, aborting...\n");
 				fclose(fconf);
